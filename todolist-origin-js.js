@@ -1,61 +1,56 @@
-const addInput = document.getElementById("title");
-const todoList = document.getElementById("todolist");
+const pushInput = document.getElementById("title");
 const todoCount = document.getElementById('todocount');
+const todoList = document.getElementById("todolist");
 const doneCount = document.getElementById('donecount');
 const doneList = document.getElementById("donelist");
 //
 const [todoArray, doneArray] = getData();
-const todoSet = new Set();
-const doneSet = new Set();
-for(let value of todoArray){
-  todoSet.add(value);
+window.onload = function(){
+  todoCount.innerHTML = todoArray.length;
+  doneCount.innerHTML = doneArray.length;
+  load();
 }
-for(let value of doneArray){
-  doneSet.add(value);
-}
-load();
-addInput.addEventListener('keypress', function(event){
+pushInput.addEventListener('keypress', function(event){
   if(event.key === 'Enter'){
     let titleValue = this.value;
     if(titleValue.trim() === ""){
         console.log("empty input");
         return
     }
-    if(doneSet.has(titleValue)){
+    if(doneArray.includes(titleValue)){
         alert("这个事情已经办完了");
         return
     }
-    if(todoSet.has(titleValue)){
+    if(todoArray.includes(titleValue)){
         alert("这个已经代办了");
         return
     }
-    todoSet.add(titleValue);
+    todoArray.push(titleValue);
     this.value = "";
-    console.log(todoSet);
     load();
   }
 })
 
 function addEventListenerForTodo(){
   todoList.childNodes.forEach(
-    function(node_, values){
+    function(node_, index_){
       let inputEle = node_.querySelector('input');
       let aElement = node_.querySelector('a');
       inputEle.addEventListener('click', function(event){
         let currentTitle = node_.querySelector('p').innerHTML;
-        todoSet.delete(currentTitle);
+        todoArray.splice(index_, 1)
         node_.remove();
-        doneSet.add(currentTitle);
-        todoCount.innerHTML = todoSet.size;
-        doneCount.innerHTML = doneSet.size;
+        doneArray.push(currentTitle);
+        todoCount.innerHTML = todoArray.length;
+        doneCount.innerHTML = doneArray.length;
         load();
       })
       aElement.addEventListener('click', (event) => {
         let currentTitle = node_.querySelector('p').innerHTML;
         node_.remove();
-        todoSet.delete(currentTitle);
-        todoCount.innerHTML = todoSet.size;
-        doneCount.innerHTML = doneSet.size;
+        todoArray.splice(index_, 1)
+        todoCount.innerHTML = todoArray.length;
+        doneCount.innerHTML = doneArray.length;
         load();
       });
     }
@@ -64,24 +59,24 @@ function addEventListenerForTodo(){
 
 function addEventListenerForDone(){
   doneList.childNodes.forEach(
-    function(node_, values){
+    function(node_, index_){
       let inputEle = node_.querySelector('input');
       let aElement = node_.querySelector('a');
       inputEle.addEventListener('click', function(event){
         let currentTitle = node_.querySelector('p').innerHTML;
-        doneSet.delete(currentTitle);
+        doneArray.splice(index_, 1)
         node_.remove();
-        todoSet.add(currentTitle);
-        todoCount.innerHTML = todoSet.size;
-        doneCount.innerHTML = doneSet.size;
+        todoArray.push(currentTitle);
+        todoCount.innerHTML = todoArray.length;
+        doneCount.innerHTML = doneArray.length;
         load();
       })
       aElement.addEventListener('click', (event) => {
         let currentTitle = node_.querySelector('p').innerHTML;
         node_.remove();
-        doneSet.delete(currentTitle);
-        todoCount.innerHTML = todoSet.size;
-        doneCount.innerHTML = doneSet.size;
+        doneArray.splice(index_, 1)
+        todoCount.innerHTML = todoArray.length;
+        doneCount.innerHTML = doneArray.length;
         load();
       });
     }
@@ -90,22 +85,25 @@ function addEventListenerForDone(){
 
 
 function load(){
-  todoList.childNodes.forEach(
-    function(node, index_){
-      node.remove();
-    }
-  )
-  doneList.childNodes.forEach(
-    function(node, index_){
-      node.remove();
-    }
-  )
+  todoList.childNodes.forEach(function(node, index){
+    node.remove();
+  })
+  doneList.childNodes.forEach(function(node, index){
+    node.remove();
+  })
+  // while(todoList.firstChild){
+  //   todoList.firstChild.remove();
+  // }
+  // while(doneList.firstChild){
+  //   doneList.firstChild.remove();
+  // }
   // todo
-  todoSet.forEach(function(index_, node_){
+  todoArray.forEach(function(node_, index_){
     let liElement = document.createElement('li');
     let checkInput = document.createElement('input');
     let pElement = document.createElement('p');
-    let delElement = document.createElement('a');
+    let delElement = document.createElement('a')
+    ;
     delElement.setAttribute('href', "javascript:;")
     delElement.innerHTML = 'x';
     checkInput.setAttribute('type', 'checkbox');
@@ -114,9 +112,9 @@ function load(){
     liElement.appendChild(pElement);
     liElement.appendChild(delElement);
     todoList.appendChild(liElement);
-    todoCount.innerHTML = todoSet.size;
+    todoCount.innerHTML = todoArray.length;
   })
-  doneSet.forEach(function(index_, node_){
+  doneArray.forEach(function(node_, index_){
     let liElement = document.createElement('li');
     let checkInput = document.createElement('input');
     let pElement = document.createElement('p');
@@ -130,7 +128,7 @@ function load(){
     liElement.appendChild(pElement);
     liElement.appendChild(delElement);
     doneList.appendChild(liElement);
-    doneCount.innerHTML = doneSet.size;
+    doneCount.innerHTML = doneArray.length;
   })
   addEventListenerForTodo();
   addEventListenerForDone();
@@ -139,17 +137,10 @@ function load(){
 
 function saveData(){
   let localData = {
-    todo: [],
-    done: []
-  }
-  for(let value of todoSet.values()){
-    localData.todo.push(value);
-  }
-  for(let value of doneSet.values()){
-    localData.done.push(value);
+    todo: todoArray,
+    done: doneArray
   }
   let storageData = JSON.stringify(localData)
-  console.log(storageData);
   localStorage.setItem('todoApp', storageData)
 }
 
