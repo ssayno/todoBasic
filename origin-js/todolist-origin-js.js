@@ -1,3 +1,5 @@
+
+
 const pushInput = document.getElementById("title");
 const todoCount = document.getElementById('todocount');
 const todoList = document.getElementById("todolist");
@@ -10,6 +12,7 @@ window.onload = function(){
   doneCount.innerHTML = doneArray.length;
   load();
 }
+
 pushInput.addEventListener('keypress', function(event){
   if(event.key === 'Enter'){
     let titleValue = this.value;
@@ -102,8 +105,7 @@ function load(){
     let liElement = document.createElement('li');
     let checkInput = document.createElement('input');
     let pElement = document.createElement('p');
-    let delElement = document.createElement('a')
-    ;
+    let delElement = document.createElement('a');
     delElement.setAttribute('href', "javascript:;")
     delElement.innerHTML = 'x';
     checkInput.setAttribute('type', 'checkbox');

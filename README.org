@@ -1,6 +1,10 @@
 #+title: Readme
 * Preface
 经典的 todolist 程序, 用 set 和 array 实现了
+* todoApp with socketio Mon Nov 28 17:28:23 2022
+flask 对接 socketio 实现了 todoApp
+* todoApp with websocket Mon Nov 28 17:28:30 2022
+flask 对接 websocket 实现了 todoApp，其实这里用不上 flask，只是目前我还没有找到其他启动 http server 的方法
 * others
 the difference of childNodes and querySelector
 1. [[https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes][childNodes-MDN]] 动态的

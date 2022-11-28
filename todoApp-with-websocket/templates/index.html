@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="../static/css/todolist.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-wrap">
+            <label for="title">ToDoList</label>
+            <input type="text" id="title" placeholder="添加ToDo" required="required">
+        </div>
+    </div>
+    <div class="container">
+        <div class="working">正在进行 <span id="todocount">0</span> </div>
+        <ol id="todolist" class="demo-box">
+        </ol>
+        <div class="working ">已经完成 <span id="donecount">0</span></div>
+        <ul id="donelist">
+        </ul>
+    </div>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/layui/2.7.6/layui.js'></script>
+    <script src="../static/js/todolist-origin-js.js"></script>
+</body>
+
+</html>
